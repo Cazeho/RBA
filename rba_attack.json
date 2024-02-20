@@ -1,6 +1,6 @@
 {
     "name": "Custom Technique Mapping",
-    "version": "4.0",
+    "version": "4.5",
     "domain": "mitre-enterprise",
     "description": "Custom technique mapping for specific ATT&CK techniques.",
     "filters": {
