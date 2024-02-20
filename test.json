@@ -1,0 +1,51 @@
+{
+    "name": "Custom Technique Mapping",
+    "version": "4.5",
+    "domain": "mitre-enterprise",
+    "description": "Custom technique mapping for specific ATT&CK techniques.",
+    "filters": {
+        "stages": [
+            "act"
+        ],
+        "platforms": [
+            "Windows"
+        ]
+    },
+    "sorting": 0,
+    "viewMode": 0,
+    "hideDisabled": false,
+    "techniques": [
+        {
+            "techniqueID": "T1518.001",
+            "color": "#756bb1",
+            "score": 1,
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1021.002",
+            "color": "#756bb1",
+            "score": 1,
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1021.006",
+            "color": "#756bb1",
+            "score": 1,
+            "enabled": true
+        }
+    ],
+    "gradient": {
+        "colors": [
+            "#756bb1",
+            "#756bb1"
+        ],
+        "minValue": 0,
+        "maxValue": 1
+    },
+    "legendItems": [],
+    "metadata": [],
+    "showTacticRowBackground": false,
+    "tacticRowBackground": "#dddddd",
+    "selectTechniquesAcrossTactics": true,
+    "selectSubtechniquesWithParent": false
+}
