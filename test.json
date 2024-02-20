@@ -1,8 +1,9 @@
 {
     "name": "Custom Technique Mapping",
-    "version": "4.5",
+    "version": "4.4",
     "domain": "mitre-enterprise",
-    "description": "Custom technique mapping for specific ATT&CK techniques.",
+    "description": "Layer of techniques supported by Custom Implementation",
+    "hideDisabled": true,
     "filters": {
         "stages": [
             "act"
@@ -11,41 +12,69 @@
             "Windows"
         ]
     },
-    "sorting": 0,
-    "viewMode": 0,
-    "hideDisabled": false,
     "techniques": [
         {
-            "techniqueID": "T1518.001",
+            "techniqueID": "T1110.003",
             "color": "#756bb1",
             "score": 1,
-            "enabled": true
+            "enabled": true,
+            "comment": "Password spraying: Kerberos Password Spraying with defined accounts, NTLM Password Spraying with random domain users Tactics: Credential Access"
+        },
+        {
+            "techniqueID": "T1558.003",
+            "color": "#756bb1",
+            "score": 1,
+            "enabled": true,
+            "comment": "Kerberoasting: Kerberoast all users with an SPN using .NET Tactics: Credential Access"
+        },
+        {
+            "techniqueID": "T1087.001",
+            "color": "#756bb1",
+            "score": 1,
+            "enabled": true,
+            "comment": "Local Account Tactics: Discovery"
+        },
+        {
+            "techniqueID": "T1087.002",
+            "color": "#756bb1",
+            "score": 1,
+            "enabled": true,
+            "comment": "Domain Account: Domain User Enumeration Using LDAP Tactics: Discovery"
+        },
+        {
+            "techniqueID": "T1003.001",
+            "color": "#756bb1",
+            "score": 1,
+            "enabled": true,
+            "comment": "Mimikatz, OS Credential Dumping: LSASS Memory Tactics: Credential Access"
         },
         {
             "techniqueID": "T1021.002",
             "color": "#756bb1",
             "score": 1,
-            "enabled": true
+            "enabled": true,
+            "comment": "SMB/Windows Admin Shares Tactics: Lateral Movement"
         },
         {
-            "techniqueID": "T1021.006",
+            "techniqueID": "T1558.002",
             "color": "#756bb1",
             "score": 1,
-            "enabled": true
+            "enabled": true,
+            "comment": "Silver Ticket Tactics: Credential Access"
+        },
+        {
+            "techniqueID": "T1558.001",
+            "color": "#756bb1",
+            "score": 1,
+            "enabled": true,
+            "comment": "Golden Ticket Tactics: Credential Access"
+        },
+        {
+            "techniqueID": "T1558.004",
+            "color": "#756bb1",
+            "score": 1,
+            "enabled": true,
+            "comment": "AS-REP Roasting Tactics: Credential Access"
         }
-    ],
-    "gradient": {
-        "colors": [
-            "#756bb1",
-            "#756bb1"
-        ],
-        "minValue": 0,
-        "maxValue": 1
-    },
-    "legendItems": [],
-    "metadata": [],
-    "showTacticRowBackground": false,
-    "tacticRowBackground": "#dddddd",
-    "selectTechniquesAcrossTactics": true,
-    "selectSubtechniquesWithParent": false
+    ]
 }
