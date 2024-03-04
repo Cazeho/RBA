@@ -9,56 +9,63 @@
             "tactic": "Credential Access",
             "technique": "Password Spraying",
             "comment": "Kerberos Password Spraying with defined accounts, NTLM Password Spraying with random domain users",
-            "color": "red",
-            "enabled": true
+            "color": "#FF0000",
+            "enabled": true,
+            "score": 1
         },
         {
             "techniqueID": "T1558.003",
             "tactic": "Credential Access",
             "technique": "Kerberoasting",
             "comment": "Kerberoast all users with an SPN using .NET",
-            "color": "red",
-            "enabled": true
+            "color": "#FF0000",
+            "enabled": true,
+            "score": 1
         },
         {
             "techniqueID": "T1087.001",
             "tactic": "Discovery",
             "technique": "Local Account",
             "comment": "",
-            "color": "red",
-            "enabled": true
+            "color": "#FF0000",
+            "enabled": true,
+            "score": 1
         },
         {
             "techniqueID": "T1087.002",
             "tactic": "Discovery",
             "technique": "Domain Account",
             "comment": "Domain User Enumeration Using LDAP",
-            "color": "red",
-            "enabled": true
+            "color": "#FF0000",
+            "enabled": true,
+            "score": 1
         },
         {
             "techniqueID": "T1003.001",
             "tactic": "Credential Access",
             "technique": "LSASS Memory",
             "comment": "Mimikatz, OS Credential Dumping: LSASS Memory",
-            "color": "red",
-            "enabled": true
+            "color": "#FF0000",
+            "enabled": true,
+            "score": 1
         },
         {
             "techniqueID": "T1021.002",
             "tactic": "Lateral Movement",
             "technique": "SMB/Windows Admin Shares",
             "comment": "",
-            "color": "red",
-            "enabled": true
+            "color": "#FF0000",
+            "enabled": true,
+            "score": 1
         },
         {
             "techniqueID": "T1135",
             "tactic": "Discovery",
             "technique": "Network Share Discovery",
             "comment": "",
-            "color": "red",
-            "enabled": true
+            "color": "#FF0000",
+            "enabled": true,
+            "score": 1
         }
     ]
 }
