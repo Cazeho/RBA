@@ -1,80 +1,71 @@
 {
-    "name": "Custom Technique Mapping",
-    "version": "4.4",
+    "name": "PurpleSharp Coverage",
+    "version": "4.5",
     "domain": "mitre-enterprise",
-    "description": "Layer of techniques supported by Custom Implementation",
-    "hideDisabled": true,
-    "filters": {
-        "stages": [
-            "act"
-        ],
-        "platforms": [
-            "Windows"
-        ]
-    },
+    "description": "PurpleSharp simulations coverage for MITRE ATT&CK Enterprise",
     "techniques": [
         {
             "techniqueID": "T1110.003",
-            "color": "#756bb1",
-            "score": 1,
+            "tactic": "Credential Access",
+            "technique": "Password Spraying",
+            "comment": "Kerberos Password Spraying with defined accounts, NTLM Password Spraying with random domain users",
+            "color": "red",
             "enabled": true,
-            "comment": "Password spraying: Kerberos Password Spraying with defined accounts, NTLM Password Spraying with random domain users Tactics: Credential Access"
+            "score": 1
         },
         {
             "techniqueID": "T1558.003",
-            "color": "#756bb1",
-            "score": 1,
+            "tactic": "Credential Access",
+            "technique": "Kerberoasting",
+            "comment": "Kerberoast all users with an SPN using .NET",
+            "color": "red",
             "enabled": true,
-            "comment": "Kerberoasting: Kerberoast all users with an SPN using .NET Tactics: Credential Access"
+            "score": 1
         },
         {
             "techniqueID": "T1087.001",
-            "color": "#756bb1",
-            "score": 1,
+            "tactic": "Discovery",
+            "technique": "Local Account",
+            "comment": "",
+            "color": "red",
             "enabled": true,
-            "comment": "Local Account Tactics: Discovery"
+            "score": 1
         },
         {
             "techniqueID": "T1087.002",
-            "color": "#756bb1",
-            "score": 1,
+            "tactic": "Discovery",
+            "technique": "Domain Account",
+            "comment": "Domain User Enumeration Using LDAP",
+            "color": "red",
             "enabled": true,
-            "comment": "Domain Account: Domain User Enumeration Using LDAP Tactics: Discovery"
+            "score": 1
         },
         {
             "techniqueID": "T1003.001",
-            "color": "#756bb1",
-            "score": 1,
+            "tactic": "Credential Access",
+            "technique": "LSASS Memory",
+            "comment": "Mimikatz, OS Credential Dumping: LSASS Memory",
+            "color": "red",
             "enabled": true,
-            "comment": "Mimikatz, OS Credential Dumping: LSASS Memory Tactics: Credential Access"
+            "score": 1
         },
         {
             "techniqueID": "T1021.002",
-            "color": "#756bb1",
-            "score": 1,
+            "tactic": "Lateral Movement",
+            "technique": "SMB/Windows Admin Shares",
+            "comment": "",
+            "color": "red",
             "enabled": true,
-            "comment": "SMB/Windows Admin Shares Tactics: Lateral Movement"
+            "score": 1
         },
         {
-            "techniqueID": "T1558.002",
-            "color": "#756bb1",
-            "score": 1,
+            "techniqueID": "T1135",
+            "tactic": "Discovery",
+            "technique": "Network Share Discovery",
+            "comment": "",
+            "color": "red",
             "enabled": true,
-            "comment": "Silver Ticket Tactics: Credential Access"
-        },
-        {
-            "techniqueID": "T1558.001",
-            "color": "#756bb1",
-            "score": 1,
-            "enabled": true,
-            "comment": "Golden Ticket Tactics: Credential Access"
-        },
-        {
-            "techniqueID": "T1558.004",
-            "color": "#756bb1",
-            "score": 1,
-            "enabled": true,
-            "comment": "AS-REP Roasting Tactics: Credential Access"
+            "score": 1
         }
     ]
 }
