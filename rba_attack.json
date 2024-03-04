@@ -1,6 +1,6 @@
 {
     "name": "PurpleSharp Coverage",
-    "version": "3.0",
+    "version": "4.5",
     "domain": "mitre-enterprise",
     "description": "PurpleSharp simulations coverage for MITRE ATT&CK Enterprise",
     "techniques": [
