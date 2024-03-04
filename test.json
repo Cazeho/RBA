@@ -9,7 +9,7 @@
             "tactic": "Credential Access",
             "technique": "Password Spraying",
             "comment": "Kerberos Password Spraying with defined accounts, NTLM Password Spraying with random domain users",
-            "color": "red",
+            "color": "#756bb1",
             "enabled": true,
             "score": 1
         },
@@ -18,7 +18,7 @@
             "tactic": "Credential Access",
             "technique": "Kerberoasting",
             "comment": "Kerberoast all users with an SPN using .NET",
-            "color": "red",
+            "color": "#756bb1",
             "enabled": true,
             "score": 1
         },
@@ -27,7 +27,7 @@
             "tactic": "Discovery",
             "technique": "Local Account",
             "comment": "",
-            "color": "red",
+            "color": "#756bb1",
             "enabled": true,
             "score": 1
         },
@@ -36,7 +36,7 @@
             "tactic": "Discovery",
             "technique": "Domain Account",
             "comment": "Domain User Enumeration Using LDAP",
-            "color": "red",
+            "color": "#756bb1",
             "enabled": true,
             "score": 1
         },
@@ -45,7 +45,7 @@
             "tactic": "Credential Access",
             "technique": "LSASS Memory",
             "comment": "Mimikatz, OS Credential Dumping: LSASS Memory",
-            "color": "red",
+            "color": "#756bb1",
             "enabled": true,
             "score": 1
         },
@@ -54,7 +54,7 @@
             "tactic": "Lateral Movement",
             "technique": "SMB/Windows Admin Shares",
             "comment": "",
-            "color": "red",
+            "color": "#756bb1",
             "enabled": true,
             "score": 1
         },
@@ -63,7 +63,7 @@
             "tactic": "Discovery",
             "technique": "Network Share Discovery",
             "comment": "",
-            "color": "red",
+            "color": "#756bb1",
             "enabled": true,
             "score": 1
         }
