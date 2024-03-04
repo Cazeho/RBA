@@ -3,6 +3,8 @@
     "version": "4.5",
     "domain": "mitre-enterprise",
     "description": "PurpleSharp simulations coverage for MITRE ATT&CK Enterprise",
+    "hideDisabled":true,
+    "filters":{"stages":["act"],"platforms":["Windows"]},
     "techniques": [
         {
             "techniqueID": "T1110.003",
