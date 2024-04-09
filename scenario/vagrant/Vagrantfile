@@ -1,0 +1,78 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+KALI="kalilinux/rolling"
+WINDOWS="gusztavvargadr/windows-10"
+UBUNTU="ubuntu/jammy64"
+WINDOWS_SERVER="d1vious/windows2016"
+
+
+Vagrant.configure("2") do |config|
+
+
+  config.vm.define "windows2016" do |lab|
+    lab.vm.box = WINDOWS_SERVER
+    lab.vm.hostname = "windows2016"
+    lab.vm.network "private_network", ip: "192.168.56.20"
+    lab.vm.disk :disk, size:"20GB", primary: true
+    lab.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.cpus = 2
+      vb.name = "windows2016"
+	  vb.gui = true
+    end
+	lab.vm.provision "shell", path: "./scripts/windows_server.ps1", privileged: true
+  end
+
+  config.vm.define "sandbox" do |lab|
+    lab.vm.box = WINDOWS
+    lab.vm.hostname = "sandbox"
+	lab.vm.network "private_network", ip: "192.168.56.10"
+    lab.vm.disk :disk, size:"40GB", primary: true
+    lab.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.cpus = 2
+      vb.name = "sandbox"
+      vb.gui = true
+    end
+	lab.vm.provision "shell", path: "./scripts/windows.ps1", privileged: true
+  end
+  
+
+  
+  
+  config.vm.define "kali" do |lab|
+    lab.vm.box = KALI
+    lab.vm.hostname = "kali"
+    lab.vm.network "private_network", ip: "192.168.56.11"
+    lab.vm.disk :disk, size:"20GB", primary: true
+    lab.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.cpus = 2
+      vb.name = "kali"
+	  vb.gui = false
+    end
+    lab.vm.provision "shell", path: "./scripts/kali.sh", privileged: true
+  end
+  
+  
+ config.vm.define "mail" do |lab|
+    lab.vm.box = UBUNTU
+    lab.vm.hostname = "mail"
+    lab.vm.network "private_network", ip: "192.168.56.100"
+    lab.vm.disk :disk, size:"20GB", primary: true
+    lab.vm.provider "virtualbox" do |vb|
+      vb.memory = 2048
+      vb.cpus = 2
+      vb.name = "mail"
+	  vb.gui = false
+    end
+	  lab.vm.provision "shell", path: "./scripts/mail.sh", privileged: true
+end
+
+
+
+
+	
+  
+ end
