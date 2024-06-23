@@ -36,6 +36,6 @@ apt install python3-poetry -y
 # depedencies
 
 apt install python3-pip -y
-wget https://github.com/Cazeho/RBA/blob/main/install/rq.txt
+curl -s https://github.com/Cazeho/RBA/blob/main/install/rq.txt >> rq.txt
 poetry shell
 pip install -r rq.txt
