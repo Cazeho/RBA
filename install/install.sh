@@ -1,6 +1,6 @@
 cd /opt
 
-sudo apt-get update
+sudo apt-get update -y
 
 # terraform
 
@@ -20,8 +20,19 @@ sudo ./aws/install
 rm awscliv2.zip
 rm -rf aws
 
+apt update -y
 
+# attack range
+
+git clone https://github.com/splunk/attack_range.git
+cd attack_range
 
 # poetry
 
- apt install python3-poetry -y
+apt install python3-poetry -y
+poetry shell
+
+# depedencies
+
+wget https://github.com/Cazeho/RBA/blob/main/install/rq.txt
+pip install -r rq.txt
