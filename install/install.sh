@@ -24,15 +24,18 @@ apt update -y
 
 # attack range
 
+cd /opt
 git clone https://github.com/splunk/attack_range.git
 cd attack_range
 
 # poetry
 
 apt install python3-poetry -y
-poetry shell
+
 
 # depedencies
 
+apt install python3-pip -y
 wget https://github.com/Cazeho/RBA/blob/main/install/rq.txt
+poetry shell
 pip install -r rq.txt
