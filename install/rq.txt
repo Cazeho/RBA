@@ -1,6 +1,6 @@
 ansible==5.6.0
 pywinrm
-PyYAML==6.0
+PyYAML
 colorama
 python-terraform
 tabulate
