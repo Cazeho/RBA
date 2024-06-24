@@ -21,6 +21,8 @@ git clone https://github.com/Pennyw0rth/NetExec
 cd NetExec
 poetry shell
 poetry install
+pip install kerbrute
+
 #python3 -m venv .
 #source bin/activate
 #pip install .
