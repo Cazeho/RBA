@@ -3,6 +3,7 @@ apt install -y python3 python3-pip
 apt install -y python3-impacket
 apt install -y python3-poetry
 apt install -y enum4linux
+apt install -y evil-winrm
 
 #apt install -y python3.11-venv
 
