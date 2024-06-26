@@ -10,6 +10,8 @@ pyyaml = "^6.0"
 ansible = "^5.0.0"
 pexpect = "^4.9.0"
 netexec = { git = "https://github.com/Pennyw0rth/NetExec.git" }
+villain = { git = "https://github.com/t3l3machus/Villain.git" }
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
