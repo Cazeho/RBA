@@ -1,1 +1,36 @@
+---
+- name: Check if crackmapexec is installed
+  command: crackmapexec --version
+  register: cme_installed
+  ignore_errors: yes
+
+- name: Install crackmapexec if not installed
+  apt:
+    name: crackmapexec
+    state: present
+  when: cme_installed.rc != 0
+
+- name: Check if impacket is installed
+  command: python3 -c "import impacket"
+  register: impacket_installed
+  ignore_errors: yes
+
+- name: Install impacket if not installed
+  pip:
+    name: impacket
+    state: present
+    executable: pip3
+  when: impacket_installed.rc != 0
+
+- name: Check if evil-winrm is installed
+  command: evil-winrm --version
+  register: evil_winrm_installed
+  ignore_errors: yes
+
+- name: Install evil-winrm if not installed
+  gem:
+    name: evil-winrm
+    state: present
+    user_install: no
+  when: evil_winrm_installed.rc != 0
 
