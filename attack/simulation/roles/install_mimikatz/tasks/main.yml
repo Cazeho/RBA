@@ -21,3 +21,8 @@
 
 - name: Run the Villain
   shell: python3 /opt/run_mimikatz.py
+  register: villain_output
+
+- name: Display the output
+  debug:
+    msg: "{{ villain_output.stdout }}"
