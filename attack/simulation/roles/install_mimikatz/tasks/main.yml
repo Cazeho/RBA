@@ -1,7 +1,7 @@
 ---
 - name: Villain
   copy:
-    dest: /opt/run_mimikatz.py
+    dest: /opt/install_mimikatz.py
     content: |
       import pexpect
       import re
@@ -15,12 +15,12 @@
 
 - name: Make the script executable
   file:
-    path: /opt/run_mimikatz.py
+    path: /opt/install_mimikatz.py
     mode: '0755'
 
 
 - name: Run the Villain
-  shell: python3 /opt/run_mimikatz.py
+  shell: python3 /opt/install_mimikatz.py
   register: villain_output
 
 - name: Display the output
