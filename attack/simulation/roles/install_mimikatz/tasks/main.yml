@@ -16,5 +16,5 @@
     mode: '0755'
 
 
-- name: Run the evil-winrm script to dump lsass
+- name: Run the Villain
   shell: /opt/run_mimikatz.sh
