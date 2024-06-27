@@ -3,12 +3,13 @@
   connection: local
   become: yes
   roles:
-    - check_tools
     - install_mimikatz
-    - dump_lsass
-    - exfiltrate_lsass
-    - kerberoasting
-    - asrep_roasting
-    - dcsync_attack
-    - dcshadow_attack
+    - winrm
+#    - check_tools
+#    - dump_lsass
+#    - exfiltrate_lsass
+#    - kerberoasting
+#    - asrep_roasting
+#    - dcsync_attack
+#    - dcshadow_attack
 
