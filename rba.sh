@@ -4,4 +4,4 @@ cd RBA
 git sparse-checkout init --cone
 git sparse-checkout set attack/simulation
 git checkout
-cd /opt
+cd /opt/RBA/attack/simulation
