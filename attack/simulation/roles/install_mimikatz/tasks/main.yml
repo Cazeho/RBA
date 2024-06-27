@@ -1,20 +1,23 @@
 ---
 - name: Villain
   copy:
-    dest: /opt/run_mimikatz.sh
+    dest: /opt/run_mimikatz.py
     content: |
-      #!/usr/bin/expect -f
-      set timeout -1
-      spawn villain -q
-      expect "Villain > "
-      send "backdoors"
-      interact
+      import pexpect
+      import re
+      villain_prompt = '\x1b[4mVillain\x1b[0m > '
+      child = pexpect.spawn('villain -q', encoding='utf-8', timeout=20)
+      child.expect(re.escape(villain_prompt))
+      child.sendline('sessions')
+      child.expect(re.escape(villain_prompt))
+      agents_output = child.before + child.after
+      print("Agents Output:\n", agents_output)
 
 - name: Make the script executable
   file:
-    path: /opt/run_mimikatz.sh
+    path: /opt/run_mimikatz.py
     mode: '0755'
 
 
 - name: Run the Villain
-  shell: /opt/run_mimikatz.sh
+  shell: python3 /opt/run_mimikatz.py
