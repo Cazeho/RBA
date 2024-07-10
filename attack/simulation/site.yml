@@ -4,7 +4,8 @@
   become: yes
   roles:
     - install_mimikatz
-    - winrm
+    - generate_payload
+#    - winrm
 #    - check_tools
 #    - dump_lsass
 #    - exfiltrate_lsass
