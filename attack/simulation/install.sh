@@ -4,5 +4,5 @@ apt install -y python3-pip
 apt install -y evil-winrm
 apt install -y villain
 
-poetry install
-poetry shell
+/opt/RBA/attack/simulation/poetry install
+/opt/RBA/attack/simulation/poetry shell
