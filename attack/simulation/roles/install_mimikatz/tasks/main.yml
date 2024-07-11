@@ -5,12 +5,15 @@
     content: |
       import pexpect
       import re
+      import time
       villain_prompt = '\x1b[4mVillain\x1b[0m > '
-      child = pexpect.spawn('villain -q', encoding='utf-8', timeout=20)
+      child = pexpect.spawn('villain -q', encoding='utf-8', timeout=50)
+      time.sleep(1)
       child.expect(re.escape(villain_prompt))
-      child.sendline('sessions')
+      child.sendline('backdoors')
       child.expect(re.escape(villain_prompt))
-      agents_output = child.before + child.after
+      child.sendline('flee')
+      agents_output = child.before
       print("Agents Output:\n", agents_output)
 
 - name: Make the script executable
