@@ -6,16 +6,15 @@ def extract_users_and_hashes_from_file(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
     
-    regex = re.compile(r'(?P<domain>[^\\]+)\\(?P<user>[^:]+):\d+:[a-f0-9]{32}:(?P<ntlm_hash>[a-f0-9]{32})')
+    regex = re.compile(r'(?P<user>[^:]+):\d+:[a-f0-9]{32}:(?P<ntlm_hash>[a-f0-9]{32})')
     
     users_and_hashes = []
     for line in lines:
         match = regex.search(line)
         if match:
-            domain = match.group('domain')
             user = match.group('user')
             ntlm_hash = match.group('ntlm_hash')
-            users_and_hashes.append({'user': f"{domain}\\{user}", 'ntlm_hash': ntlm_hash})
+            users_and_hashes.append({'user': f"{user}", 'ntlm_hash': ntlm_hash})
     
     return users_and_hashes
  
