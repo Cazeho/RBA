@@ -12,7 +12,7 @@
 
       command = f"evil-winrm -i {target_ip} -u {username} -H {hash}"
 
-      winrm='PS \x1b[0mC:\\Users\\Administrator\\Documents> '
+      winrm=f'PS \x1b[0mC:\\Users\\{username}\\Documents> '
       child = pexpect.spawn(command)
       child.timeout = None
       child.expect(re.escape(winrm))
