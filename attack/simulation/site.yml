@@ -5,6 +5,7 @@
   roles:
     - install_mimikatz
     - generate_payload
+    - mimikatz_creds
 #    - winrm
 #    - check_tools
 #    - dump_lsass
