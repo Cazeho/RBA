@@ -8,7 +8,7 @@
       import time
       villain_prompt = '\x1b[4mVillain\x1b[0m > '
       child = pexpect.spawn('villain -q', encoding='utf-8', timeout=50)
-      time.sleep(1)
+      time.sleep(1.5)
       child.expect(re.escape(villain_prompt))
       child.sendline('backdoors')
       child.expect(re.escape(villain_prompt))
