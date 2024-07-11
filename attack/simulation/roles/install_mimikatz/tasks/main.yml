@@ -5,6 +5,7 @@
     content: |
       import pexpect
       import re
+      import json
       import time
       villain_prompt = '\x1b[4mVillain\x1b[0m > '
       child = pexpect.spawn('villain -q', encoding='utf-8', timeout=50)
@@ -14,7 +15,33 @@
       child.expect(re.escape(villain_prompt))
       child.sendline('flee')
       agents_output = child.before
-      print("Agents Output:\n", agents_output)
+
+      clean_data = re.sub(r'\u001b\[.*?m|\u0002', '', agents_output)
+      
+      pattern = r'(\S+)\s+(\S+)\s+(powershell\.exe)\s+(hoaxshell)\s+(\S+)\s+(\S+)'
+      
+      matches = re.findall(pattern, clean_data)
+      
+      session_info_list = []
+      
+      if matches:
+          for match in matches:
+              session_info = {
+                  "Session ID": match[0],
+                  "IP Address": match[1],
+                  "Shell": match[2],
+                  "Listener": match[3],
+                  "Stability": match[4],
+                  "Status": match[5]
+              }
+              session_info_list.append(session_info)
+      
+      json_data = json.dumps(session_info_list, indent=4)
+      
+      with open('session.json', 'w') as json_file:
+          json_file.write(json_data)
+      
+      print(json_data)
 
 - name: Make the script executable
   file:
