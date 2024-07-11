@@ -65,7 +65,7 @@ def extract_user_ntlm(parsed_output):
             user_ntlm_list.append((user_name, ntlm_hash))
     return user_ntlm_list
 
-file_path = 'log'
+file_path = 'mimikatz.log'
 mimikatz_output = read_mimikatz_output_from_file(file_path)
 parsed_output = parse_mimikatz_output(mimikatz_output)
 user_ntlm_list = extract_user_ntlm(parsed_output)
