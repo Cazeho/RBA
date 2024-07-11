@@ -19,7 +19,6 @@
       child.sendline("whoami.exe")
       child.expect(re.escape(winrm))
       child.sendline("exit")
-      child.interact()
       res = child.before + child.after
       print(res)
 
