@@ -8,7 +8,7 @@
     - mimikatz_creds
 #    - winrm
 #    - check_tools
-#    - dump_lsass
+#    - mimikatz_dump
 #    - exfiltrate
 #    - kerberoasting
 #    - asrep
