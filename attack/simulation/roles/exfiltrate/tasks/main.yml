@@ -1,11 +1,11 @@
 ---
 - name: Configure ngrok authtoken
   shell: |
-    /usr/local/bin/ngrok authtoken {{ ngrok_authtoken }}
+    ngrok authtoken {{ ngrok_authtoken }}
 
 - name: Start ngrok http tunnel
   shell: |
-    nohup /usr/local/bin/ngrok http 80 &
+    nohup ngrok http 80 &
 
 - name: Wait for ngrok to start
   pause:
