@@ -9,7 +9,7 @@
 #    - winrm
 #    - check_tools
 #    - dump_lsass
-#    - exfiltrate_lsass
+#    - exfiltrate
 #    - kerberoasting
 #    - asrep
 #    - dcsync
