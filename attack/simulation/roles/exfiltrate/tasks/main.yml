@@ -5,7 +5,7 @@
 
 - name: Create HTTP server to serve the lsass dump
   shell: |
-    python3 server/app.py --port {{ ngrok_port }} &
+    gunicorn --workers 5 --bind 0.0.0.0:{{ ngrok_port }} app:app --chdir server &
 
 - name: Wait for server to start
   pause:
