@@ -5,7 +5,7 @@ import argparse
 app = Flask(__name__)
 
 # Set the upload folder path
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = 'dump'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Ensure the upload folder exists and has correct permissions
