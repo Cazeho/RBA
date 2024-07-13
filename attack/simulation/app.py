@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template_string
 import os
+import argparse
 
 app = Flask(__name__)
 
@@ -56,4 +57,7 @@ def upload_file():
             return f"Failed to save file: {e}"
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    parser = argparse.ArgumentParser(description='Run Flask file upload server.')
+    parser.add_argument('--port', type=int, default=8080, help='Port to run the Flask server on.')
+    args = parser.parse_args()
+    app.run(host='0.0.0.0', port=args.port, debug=True)
