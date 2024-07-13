@@ -5,7 +5,7 @@
 
 - name: Create HTTP server to serve the lsass dump
   shell: |
-    python3 data/app.py --port {{ ngrok_port }} &
+    python3 server/app.py --port {{ ngrok_port }} &
 
 - name: Wait for server to start
   pause:
