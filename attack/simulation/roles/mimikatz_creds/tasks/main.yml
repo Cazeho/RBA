@@ -25,7 +25,7 @@
        child.expect(re.escape(villain_prompt))
        child.sendline("sessions")
        child.expect(re.escape(villain_prompt))
-       child.sendline("shell 3d88c8-2d1d5e-44e718")
+       child.sendline(shell)
        child.expect(r"Undefined\\Undefined> ")
        child.sendline("whoami")
        child.expect(r"Undefined\\Undefined> ")
