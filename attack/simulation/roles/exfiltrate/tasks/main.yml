@@ -25,6 +25,14 @@
   register: ngrok_url
 
 
+- name: Store ngrok URL in JSON file
+  copy:
+    content: |
+      {
+        "ngrok_url": "{{ ngrok_url.stdout }}"
+      }
+    dest: ngrok_url.json
+
 - name: Display the output
   debug:
     msg: "{{ ngrok_url.stdout }}"
