@@ -1,1 +1,30 @@
+---
+- name: rid
+  copy:
+    dest: /opt/rid.py
+    content: |
+      import subprocess
+      username = "vagrant"
+      password= "vagrant"
+      domain="{{ domain }}"
+      target_ip="{{ target_ip_admin }}"
+      command= f"""nxc smb {target_ip} -u {username} -p {password} --rid-brute | grep SidTypeUser | cut -d '' -f2 | cut -d '\\' -f2 | awk """+  "'{ print $1 }'"+""" > user.txt"""
+      result = subprocess.run(command, shell=True, capture_output=True, text=True)
+      if result.returncode == 0:
+         print("Create a user.txt file.")
 
+
+
+- name: Make the script executable
+  file:
+    path: /opt/rid.py
+    mode: '0755'
+
+- name: Run the rid
+  shell: python3 /opt/rid.py
+  register: rid_output
+
+
+- name: Display the output
+  debug:
+    msg: "{{ rid_output.stdout }}"
