@@ -3,16 +3,17 @@
   connection: local
   become: yes
   roles:
-    - install_mimikatz
-    - generate_payload
-    - mimikatz_creds
+#    - install_mimikatz
+#    - generate_payload
+#    - mimikatz_creds
 #    - winrm
 #    - check_tools
-#    - mimikatz_dump
 #    - exfiltrate
-#    - kerberoasting
+#    - mimikatz_dump
+#    - rid
 #    - asrep
+#    - kerberoasting
+#    - golden
+#    - ntds
 #    - dcsync
 #    - dcshadow
-#    - golden
-#    - rid
