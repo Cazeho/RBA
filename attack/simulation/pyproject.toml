@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ansible-playbook-simulate-attack"
+name = "simulation"
 version = "0.1.0"
 description = "Simulate attack"
 authors = ["Cazeho"]
