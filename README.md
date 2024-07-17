@@ -4,7 +4,7 @@
 ```curl -s https://raw.githubusercontent.com/Cazeho/RBA/main/rba.sh | bash```
 
 
-```curl -s https://raw.githubusercontent.com/Cazeho/RBA/main/install/attack.sh | bash```
+```curl -s https://raw.githubusercontent.com/Cazeho/RBA/main/attack/simulation/install.sh | bash```
 
 
 
