@@ -5,6 +5,7 @@ apt install -y evil-winrm
 apt install -y villain
 apt install -y python3-impacket
 apt install -y jq
+apt install -y wordlists
 apt install -y unzip
 
 cd /opt/RBA/attack/
