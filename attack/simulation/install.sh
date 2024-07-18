@@ -5,6 +5,12 @@ apt install -y evil-winrm
 apt install -y villain
 apt install -y python3-impacket
 apt install -y jq
+apt install -y unzip
+
+cd /opt/RBA/attack/simulation/tool
+wget https://download.sysinternals.com/files/Procdump.zip
+unzip Procdump.zip
+rm -rf Procdump.zip
 
 cd /opt/RBA/attack/simulation
 poetry install
