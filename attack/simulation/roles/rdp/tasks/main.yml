@@ -20,7 +20,7 @@
     path: /opt/rdp.py
     mode: '0755'
 
-- name: Run the NTDS
+- name: Run the RDP
   shell: python3 /opt/ndp.py
   register: ndp_output
 
