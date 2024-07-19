@@ -1,5 +1,6 @@
 # RBA
 
+## Playbook d'automatisation d'attack pour l'aide a la detection (Purple Team)
 
 ```curl -s https://raw.githubusercontent.com/Cazeho/RBA/main/rba.sh | bash```
 
