@@ -21,10 +21,10 @@
     mode: '0755'
 
 - name: Run the RDP
-  shell: python3 /opt/ndp.py
-  register: ndp_output
+  shell: python3 /opt/rdp.py
+  register: rdp_output
 
 
 - name: Display the output
   debug:
-    msg: "{{ ndp_output.stdout }}"
+    msg: "{{ rdp_output.stdout }}"
