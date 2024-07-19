@@ -1,3 +1,5 @@
+#!/bin/bash
+
 apt update -qq
 apt install -y python3-poetry
 apt install -y python3-pip
@@ -7,6 +9,10 @@ apt install -y python3-impacket
 apt install -y jq
 apt install -y wordlists
 apt install -y unzip
+
+HOST_ENTRY="10.0.1.14 attackrange.local"
+echo "$HOST_ENTRY" | sudo tee -a /etc/hosts
+
 
 cd /opt/RBA/attack/
 chmod +x install_ngrok.sh
