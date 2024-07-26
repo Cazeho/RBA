@@ -4,8 +4,8 @@
     dest: /opt/rid.py
     content: |
       import subprocess
-      username = "vagrant"
-      password= "vagrant"
+      username = "anonymous"
+      password= ""
       domain="{{ domain }}"
       target_ip="{{ target_ip_admin }}"
       command= f"""nxc smb {target_ip} -u {username} -p {password} --rid-brute | grep SidTypeUser | cut -d '' -f2 | cut -d '\\' -f2 | awk """+  "'{ print $1 }'"+""" > user.txt"""
