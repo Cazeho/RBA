@@ -3,6 +3,7 @@ Path to add RBA based rules
 
 /opt/splunk/etc/apps/SplunkEnterpriseSecuritySuite/local/savedsearches.conf
 
+http://localhost:8000/fr-FR/manager/SplunkEnterpriseSecuritySuite/saved/searches?app=&count=10&offset=0&itemType=&owner=&search=SPK
 
 List of rules:
 
