@@ -1,6 +1,6 @@
 Path to add RBA based rules
 
-
+/opt/splunk/etc/apps/search/default/savedsearches.conf
 
 
 List of rules:
