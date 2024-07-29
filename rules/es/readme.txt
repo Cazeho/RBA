@@ -35,7 +35,7 @@ RR - Suspicious mshta.exe child process
 RR - Malicious execution of powershell command
 RR - Suspicious connection to a C2
 
-2eme set: connection sur le machine comprise par le HTML smuggling avec winrm puis dump lsass puis exfiltration du dump sur un domain ngrok
+2eme set: connection sur la machine comprise par le HTML smuggling avec winrm puis dump lsass puis exfiltration du dump sur un domain ngrok
 
 RR - Winrm suspicious command
 RR - Ngrok data exfiltration on Network
