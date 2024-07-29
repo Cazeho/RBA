@@ -1,7 +1,7 @@
 
 Path to add RBA based rules
 
-/opt/splunk/etc/apps/SplunkEnterpriseSecuritySuite/local
+/opt/splunk/etc/apps/SplunkEnterpriseSecuritySuite/local/savedsearches.conf
 
 
 List of rules:
