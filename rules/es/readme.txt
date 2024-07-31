@@ -1,3 +1,6 @@
+/opt/splunk/etc/apps/search/local/data/ui/views
+
+
 
 Path to add RBA based rules
 
