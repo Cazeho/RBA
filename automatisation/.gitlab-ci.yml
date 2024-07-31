@@ -1,0 +1,18 @@
+stages:
+  - deploy
+
+variables:
+  SPLUNK_ALERT_PATH: "/opt/splunk/etc/apps/SplunkEnterpriseSecuritySuite/local/savedsearches.conf"
+  PASSWORD: ""
+
+deploy_alert:
+  stage: deploy
+  tags:
+    - splunk
+  script:
+    - echo "Deploying alert configuration to Splunk server..."
+    - echo $PASSWORD | sudo -S cp savedsearches.conf $SPLUNK_ALERT_PATH
+    - echo "Deployment complete."
+    - echo "Restart Splunk..."
+    - echo $PASSWORD | sudo -S /opt/splunk/bin/splunk restart
+    - echo "Restart complete"
