@@ -1,7 +1,12 @@
-curl -s https://raw.githubusercontent.com/Cazeho/download_project/main/docker_ubuntu.sh | bash
+# use kali distro
 
+
+apt update
 cd /opt
 git clone https://github.com/mitre/caldera.git --recursive
 cd caldera
-docker build . --build-arg WIN_BUILD=true -t caldera:latest
-docker run -p 8888:8888 caldera:latest
+pip3 install -r requirements.txt
+git submodule add https://github.com/mitre/magma
+cd plugins/magma && npm install && cd ..
+cd ../..
+python3 server.py --insecure --build
