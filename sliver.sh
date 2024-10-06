@@ -1,1 +1,1 @@
-apt install sliver
+apt install sliver -y
